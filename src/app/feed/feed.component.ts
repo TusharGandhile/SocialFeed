@@ -1,7 +1,9 @@
+import { style } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 
 
@@ -11,6 +13,8 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./feed.component.scss']
 })
 export class FeedComponent implements OnInit {
+
+  showHeart:any=true
 UpdatedProfileURL='http://localhost:8080/api/user/'
 FeedGetURL='http://localhost:8080/api/feed';
 FeedPostURL='http://localhost:8080/api/feed';
@@ -32,11 +36,11 @@ allUser:any=[];
 contentLoaded=false;
 
 listArray : string[] = [];
-sum = 5;
+sum = 5 ;
 direction = "";
 
 
-  constructor(private router:Router,private http:HttpClient,private toastr:ToastrService) { }
+  constructor(private spinner: NgxSpinnerService,private router:Router,private http:HttpClient,private toastr:ToastrService) { }
 
   ngOnInit(): void {
     if(localStorage.getItem('currentUser')){
@@ -71,10 +75,11 @@ this.http.get<any>('http://localhost:8080/api/feed?page=1&size=3000',{ headers: 
  this.feedArr=res;
    console.log(this.feedArr.feeds);
 })
-
 setTimeout(() => {
   this.contentLoaded = true;
-}, 5000);
+  this.spinner.hide();
+}, 2000);
+
 
 this.appendItems();
   }
@@ -96,7 +101,9 @@ this.appendItems();
 
   onSubmit() {
    
-    this .http.post<any>(this.FeedPostURL,{photo:this.img,caption:this.data.value.caption},{ headers: { "auth-token": this.token }}).subscribe((data:any)=>{
+    let cu=JSON.parse(localStorage.getItem('currentUser')!);
+    this.currentUser=cu
+    this .http.post<any>(this.FeedPostURL,{photo:this.img,caption:this.data.value.caption, userId:cu._id},{ headers: { "auth-token": this.token }}).subscribe((data:any)=>{
       console.log(data);
       
     })
@@ -136,6 +143,7 @@ this.appendItems();
       console.log(data);
       
     })
+    
   }
   onComment(fa:any){
     let arr=[] 
@@ -153,36 +161,53 @@ this.appendItems();
   }
   onScrollDown(ev: any) {
     console.log("scrolled down!!", ev);
-
-    this.sum += 20;
+   
+    this.sum += 5;
+    
     this.appendItems();
+    this.contentLoaded=false
+//this.spinner.show();
+    setTimeout(() => {
+      this.contentLoaded = true;
+      this.spinner.hide();
+    }, 2000);
     
     this.direction = "scroll down";
   }
 
-  // onScrollUp(ev: any) {
-  //   console.log("scrolled up!", ev);
-  //   this.sum += 20;
-  //   this.prependItems();
 
-  //   this.direction = "scroll up";
-  // }
 
   appendItems() {
     this.addItems("push");
   }
+  
 
-  prependItems() {
-    this.addItems("unshift");
-  }
+  
 
   addItems(_method: string) {
     for (let i = 0; i < this.sum; ++i) {
       if( _method === 'push'){
-        this.listArray.push([i].join(""));
-      }else if( _method === 'unshift'){
-        this.listArray.unshift([i].join(""));
+        this.http.get<any>('http://localhost:8080/api/feed?page=1&size='+i,{ headers: { "auth-token": this.token }}).subscribe((res:any)=>{
+          console.log(res);
+          this.feedArr=res;
+            console.log(this.feedArr.feeds);
+         })
+        }
       }
-    }
+  }
+  delete(fa:any)
+  {
+   if(confirm("Are you sure to delete post")) {this.http.delete<any>("http://localhost:8080/api/feed/"+fa._id,{ headers: { "auth-token": this.token }}).subscribe(res=>{
+      console.log(res);
+
+      this.toastr.error("Post Deleted Successfully !!", "Success")
+    })
+
+    this.http.get<any>(this.FeedGetURL,{ headers: { "auth-token": this.token }}).subscribe((res:any)=>{
+      this.feedArr=res;
+      console.log(this.feedArr.feeds);
+      this.ngOnInit()
+
+    })}
   }
 }

@@ -23,8 +23,8 @@
             data-mdb-toggle="dropdown"
             aria-expanded="false"
           >
-          <ngx-avatar *ngIf="!img" bgColor="orangered"name={{username}} src=""></ngx-avatar>
-          <ngx-avatar *ngIf="img" src="http://localhost:8080/{{img}}"></ngx-avatar>
+          <ngx-avatar src="http://localhost:8080/{{img}}" bgColor="orangered"name={{username}} src=""></ngx-avatar>
+          <!-- <ngx-avatar *ngIf="img" ></ngx-avatar> -->
            <p class="uname">{{username}}</p>
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">

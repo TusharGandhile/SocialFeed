@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -20,6 +20,7 @@ import { ModalModule } from 'angular-custom-modal';
 import { GoogleLoginProvider, SocialLoginModule } from 'angularx-social-login';
 import { NgxSkeletonLoaderModule } from "ngx-skeleton-loader";
 import { InfiniteScrollModule } from "ngx-infinite-scroll";
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 
 @NgModule({
@@ -47,13 +48,15 @@ import { InfiniteScrollModule } from "ngx-infinite-scroll";
     SocialLoginModule,
     ToastrModule.forRoot(),
     NgxSkeletonLoaderModule.forRoot(),
-    InfiniteScrollModule
+    InfiniteScrollModule,
+    NgxSpinnerModule,
    
 
     
 
     
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
     {
       provide: 'SocialAuthServiceConfig',

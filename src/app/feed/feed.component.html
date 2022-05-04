@@ -2,43 +2,90 @@
 
 
 
-<div class="container-fluid">
+<div class="container-fluid" style="background-color: rgb(253, 224, 236);">
   <div class=" m-5 p-5">
-    <div class="search-results" infinite-scroll (scrolled)="onScrollDown($event)">
-     
-    <div class="container">
+    <div class="search-results" >
+      <p *ngFor="let i of feedArr.feeds"></p>
+    <div class="container" infinite-scroll (scrolled)="onScrollDown($event)">
       <div class="row">
         <div class="col-lg-8">
-          <div class="card " *ngFor="let fa of feedArr.feeds">
+          <div class="card mb-3" *ngFor="let fa of feedArr.feeds;  index as i">
+            <ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "square-jelly-box" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
 
             <div class="header">
               <ngx-skeleton-loader *ngIf="!contentLoaded" [theme]="{
-                      width: '350px',
+                      width: '650px',
                       'border-radius': '0',
                       height: '30px',
                       'margin-bottom': '10px'
                     }"></ngx-skeleton-loader>
-              <h5 *ngIf="contentLoaded" class="card-title">{{fa.caption}}</h5>
+                    
+                   
+                    <ng-container  *ngFor="let u of allUser">
+                      <ng-container  *ngIf="contentLoaded">
+                   <div class="row">   
+                     <div class="col-lg-2">
+           <ngx-avatar *ngIf="u._id==fa.userId"  size="60" src="http://localhost:8080/{{u.photo}}" bgColor="orangered" name="{{u.firstName}} {{u.lastName}} "> </ngx-avatar>
+          </div>
+           <div class="col-lg-8">
+
+           <h5   *ngIf="u._id==fa.userId" class="card-title mt-3 mb-5 ml-3">{{u.firstName}} {{u.lastName}}  </h5>
+          </div>
+           <div  *ngIf="fa.userId==currentUser._id" class="col">
+          
+
+           <ul class="navbar-nav pull-right"   *ngIf="u._id==fa.userId" >
+            <li class="nav-item pull-right">
+              <a
+                class="nav-link  d-flex align-items-center"
+                id="navbarDropdownMenuLink"
+                role="button"
+                data-mdb-toggle="dropdown"
+                aria-expanded="false"
+              >
+              <i class="fa-solid fa-ellipsis-vertical pull-right"></i>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <li><a class="dropdown-item" (click)="delete(fa)">Delete Post</a></li>
+                <!-- <li (click)="basicModal.show()"  mdbWavesEffect><a class="dropdown-item"  >Edit Post</a></li> -->
+              
+              </ul>
+            </li>
+          </ul>
+      
+          </div>
+          </div> 
+</ng-container  >
+                    </ng-container>
+             
             </div>
             <ngx-skeleton-loader *ngIf="!contentLoaded" [theme]="{
-                    width: '350px',
+                    width: '650px',
                     'border-radius': '0',
                     height: '170px',
                     'margin-bottom': '10px'
                   }"></ngx-skeleton-loader>
             <img *ngIf="contentLoaded" src="http://localhost:8080/{{fa.photo}}" class="card-img-top" alt="...">
+            <h5 *ngIf="contentLoaded" class="card-title mt-3">{{fa.caption}} </h5>
             <div class="card-body">
               <ngx-skeleton-loader *ngIf="!contentLoaded" [theme]="{
-                    width: '350px',
+                    width: '650px',
                     'border-radius': '0',
                     height: '70px',
                     'margin-bottom': '10px'
                   }"></ngx-skeleton-loader>
               <div *ngIf="contentLoaded" class="d-flex">
 
-                <i class="fa fa-heart fa-2x" id="heart" style="color:red" aria-hidden="true" (click)="onLike(fa)"><span
+ 
+  <!-- <i  [ngStyle]="{'color': (fa.like[i].userId==currentUser._id) ? 'rgb(252, 67, 67)' : '#00000'}" class="fa fa-heart fa-2x"  id="heart"  aria-hidden="true" (click)="onLike(fa)"><span
+    class="badge badge-secondary">{{fa.like.length}}</span></i>
+              -->
+
+                <i class="fa fa-heart fa-2x"  id="heart" style="color:red" aria-hidden="true" (click)="onLike(fa)"><span
                     class="badge badge-secondary">{{fa.like.length}}</span></i>
-                <i class="fa fa-comment fa-2x" aria-hidden="true" (click)="show==false?show=true:show=false"><span
+                    <!-- <i *ngIf="showHeart" class="fa fa-heart fa-2x"  id="heart" aria-hidden="true" (click)="onLike(fa)"><span
+                      class="badge badge-secondary">{{fa.like.length}}</span></i> -->
+                <i class="fa fa-comment fa-2x" aria-hidden="true" (click)="fa.show==false?fa.show=true:fa.show=false"><span
                     class="badge badge-secondary">{{fa.comment.length}}</span></i>
 
                 <form #frm="ngForm">
@@ -49,21 +96,22 @@
                 </form>
 
               </div>
-              <div *ngIf="show" class="allComment">
+              <div *ngIf="!fa.show" class="allComment">
 
                 <ng-container *ngFor="let com of fa.comment">
                   <div class="d-flex">
 
                     <ng-container *ngFor="let au of allUser">
-                      <ngx-avatar *ngIf="com.userId==au._id" bgColor="orangered" name={{au.firstName+au.lastName}}
-                        size="30"></ngx-avatar>
-
+                      <!-- <ngx-avatar *ngIf="com.userId==au._id" bgColor="orangered" name={{au.firstName+au.lastName}}
+                       ></ngx-avatar> -->
+          <ngx-avatar *ngIf="com.userId==au._id"  size="30" src="http://localhost:8080/{{au.photo}}" bgColor="orangered"name="{{au.firstName}} {{au.lastName}}" ></ngx-avatar>
+                     
                     </ng-container>
                     <p style="margin-left: 10px;">{{com.comment}}</p>
                   </div>
                 </ng-container>
               </div>
-
+            </div>
             </div>
           </div>
         </div>
@@ -72,7 +120,8 @@
 
 
     <i class="fas fa-plus-circle pull-right" (click)="basicModal.show()" mdbWavesEffect>
-      <p class="ap">Add Post</p>
+     
+      <p class="ap ">Add Post</p>
     </i>
     <div mdbModal #basicModal="mdbModal" class="modal fade right" tabindex="-1" role="dialog"
       aria-labelledby="myBasicModalLabel" aria-hidden="true">
@@ -81,27 +130,29 @@
           <div class="modal-header">
             <h4 class="modal-title w-100" id="myModalLabel">Create New Post</h4>
           </div>
+          <form #f="ngForm">
           <div class="modal-body">
 
-            <form #f="ngForm">
+           
               <label>Add Image:</label><br>
               <br>
-              <input type="file" name="files" accept="image/*" (change)="onFileChanged($event)">
+              <input type="file" name="files" accept="image/*" (change)="onFileChanged($event)" required>
               <br>
 
               <label>Add Caption:</label><br><br>
               <textarea name="caption" [(ngModel)]="your_new_name" id="cap" cols="25" rows="2"
-                placeholder="write something here..."></textarea>
+                placeholder="write something here..." required></textarea>
 
               <br>
-            </form>
+           
           </div>
           <div class="modal-footer">
             <button type="button" mdbBtn color="danger" class="waves-light" aria-label="Close"
               (click)="basicModal.hide()" mdbWavesEffect>Close</button>
-            <button type="button" mdbBtn color="primary" class="relative waves-light" (click)="onSubmit()"
+            <button [disabled]= "f.invalid" type="button"  mdbBtn color="primary" class="relative waves-light" (click)="onSubmit()"
               mdbWavesEffect>Save!</button>
           </div>
+        </form>
         </div>
       </div>
     </div>
