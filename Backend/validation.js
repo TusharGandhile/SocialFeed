@@ -14,6 +14,7 @@ const feedValidation=(data)=>{
 const schema=Joi.object({ 
     photo:Joi.string().min(6).required(),
     caption:Joi.string().min(6).required(), 
+    userId:Joi.string().min(6).required(), 
    
     
 })
