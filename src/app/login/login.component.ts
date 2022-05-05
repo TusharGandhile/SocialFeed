@@ -20,6 +20,9 @@ loginURL='http://localhost:8080/api/user/login'
   constructor(private socialAuthService: SocialAuthService,private formBuilder:FormBuilder,private router:Router,private http:HttpClient,private toastr: ToastrService) { }
 
   ngOnInit(): void {
+
+
+    localStorage.clear()
     this.loginForm = this.formBuilder.group({
       email: ['',[ Validators.required,Validators.email]],
       password: ['',[ Validators.required, Validators.minLength(6),]],
@@ -75,7 +78,7 @@ signupWithGoogle(){
         password:this.googleUser.email,
        }
      
-       this.http.post<any>("http://localhost:8080/api/user/",user).subscribe(res=>{
+       this.http.post<any>("http://localhost:8080/api/user/googleuser/",user).subscribe(res=>{
          console.log(res);
          
          this.http.post<any>(this.loginURL,{email:res.user.email, password:res.user.email}).subscribe((data:any)=>{
@@ -91,7 +94,7 @@ signupWithGoogle(){
           this.toastr.error("Login invalid","Bad request" )
           });
        })
-       this.router.navigate(['/feed']);
+      
         
       })
       .catch((err)=>{

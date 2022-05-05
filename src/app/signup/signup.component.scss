@@ -1,7 +1,16 @@
 .container{
     margin-top: 70px;
 }
-.form-check{
-   // margin-top: 20px;
-    padding-top: 30px;
+input{
+    border:1px solid black !important;
+   
+  padding:15px !important   ;
+}
+
+label{
+  padding:20px;
+  font-size: large;
+}
+.form-label{
+    font-size: large; 
 }

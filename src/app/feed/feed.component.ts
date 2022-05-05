@@ -36,16 +36,14 @@ allUser:any=[];
 contentLoaded=false;
 
 listArray : string[] = [];
-sum = 5 ;
+sum =100 ;
 direction = "";
 
 
   constructor(private spinner: NgxSpinnerService,private router:Router,private http:HttpClient,private toastr:ToastrService) { }
 
   ngOnInit(): void {
-
-localStorage.clear();
-
+  
     if(localStorage.getItem('currentUser')){
       this.currentUser=JSON.parse(localStorage.getItem('currentUser')!)
       console.log(this.currentUser._id);
@@ -54,7 +52,7 @@ localStorage.clear();
     if (localStorage.getItem('token')) {
       this.token = JSON.parse(localStorage.getItem('token')!)
       console.log(this.token);
-
+     
     }
     this.http.get<any>(this.UpdatedProfileURL,{ headers: { "auth-token": this.token }}).subscribe((data:any)=>{
       this.allUser=data.users;
@@ -80,9 +78,7 @@ this.http.get<any>('http://localhost:8080/api/feed?page=1&size=3000',{ headers: 
 })
 setTimeout(() => {
   this.contentLoaded = true;
-  this.spinner.hide();
 }, 2000);
-
 
 this.appendItems();
   }
@@ -124,9 +120,9 @@ this.appendItems();
   }
   onLike(fa:any){
   let arr=[]
- 
+  this.flag=true
   let val=0
-    console.log(fa._id);
+ 
     arr=fa.like;
   for(let i=0;i<arr.length;i++){
   if(arr[i].userId==this.currentUser._id){
@@ -146,11 +142,9 @@ this.appendItems();
       console.log(data);
       
     })
-    
   }
-  onComment(fa:any){
+    onComment(fa:any){
     let arr=[] 
-    let val=0
       console.log(fa._id);
       arr=fa.comment;
       arr.push({userId:this.currentUser._id,comment:this.frm.value.your_comment,date:Date.now()})
@@ -165,14 +159,14 @@ this.appendItems();
   onScrollDown(ev: any) {
     console.log("scrolled down!!", ev);
    
-    this.sum += 5;
+    this.sum += 1000;
     
     this.appendItems();
     this.contentLoaded=false
 //this.spinner.show();
     setTimeout(() => {
       this.contentLoaded = true;
-      this.spinner.hide();
+      //this.spinner.hide();
     }, 2000);
     
     this.direction = "scroll down";
@@ -213,4 +207,18 @@ this.appendItems();
 
     })}
   }
+  likenow(fa:any){
+    let a:any= false
+    fa.like.find((data:any)=>{
+     
+      
+if(data.userId==this.currentUser._id){
+
+a= true
+ }
+ 
+})
+return a
+
+}
 }

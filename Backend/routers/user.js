@@ -8,6 +8,48 @@ const verify=require("./verify")
 
 const imgUpload=require("../imgUpload")
 
+router.post('/googleuser',async (req, res) => {
+    // const {error}=userValidation(req.body);
+    // if(error) 
+
+    return  res.json({
+        success:false,
+        message: error.details[0].message,
+       
+    })
+
+    const salt= await bcrypt.genSalt(10)
+const hashedPassword= await bcrypt.hash(req.body.password,salt)
+    
+        const user = new User({
+            firstName:req.body.firstName,
+            lastName:req.body.lastName,
+            email:req.body.email,
+            password:hashedPassword,
+           
+            
+        });
+    
+        try {
+    
+            await user.save();
+            // res.json({success:true,
+            //     message:"user Inserted successfully", user:req.user,
+            //     users})
+            return res.send({success:true,
+                message:"Users Inserted successfully", user:req.user,
+                user})
+            
+    
+    
+        } catch (err) {
+    
+            return res.status(400).send(err)
+    
+        }
+ 
+    
+    })
 
 router.post('/',async (req, res) => {
     const {error}=userValidation(req.body);

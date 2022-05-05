@@ -77,14 +77,14 @@
               <div *ngIf="contentLoaded" class="d-flex">
 
  
-  <!-- <i  [ngStyle]="{'color': (fa.like[i].userId==currentUser._id) ? 'rgb(252, 67, 67)' : '#00000'}" class="fa fa-heart fa-2x"  id="heart"  aria-hidden="true" (click)="onLike(fa)"><span
-    class="badge badge-secondary">{{fa.like.length}}</span></i>
-              -->
+ <!-- <i  [ngStyle]="{'color': (likenow(fa)) ? 'red' : '#00000'}" class="fa fa-heart fa-2x"  id="heart"  aria-hidden="true" (click)="onLike(fa)"><span
+    class="badge badge-secondary">{{fa.like.length}}</span></i> -->
               
-                <i class="fa fa-heart fa-2x"  id="heart" style="color:red" aria-hidden="true" (click)="onLike(fa)"><span
+
+                 <i  *ngIf=" likenow(fa)"   class="fa fa-heart fa-2x"  id="heart" style="color:red" aria-hidden="true" (click)="onLike(fa)"><span
                     class="badge badge-secondary">{{fa.like.length}}</span></i>
-                    <!-- <i *ngIf="showHeart" class="fa fa-heart fa-2x"  id="heart" aria-hidden="true" (click)="onLike(fa)"><span
-                      class="badge badge-secondary">{{fa.like.length}}</span></i> -->
+                     <i *ngIf="!likenow(fa)" class="fa fa-heart fa-2x"  id="heart" aria-hidden="true" (click)="onLike(fa)"><span
+                     class="badge badge-secondary">{{fa.like.length}}</span></i> 
                 <i class="fa fa-comment fa-2x" aria-hidden="true" (click)="fa.show==false?fa.show=true:fa.show=false"><span
                     class="badge badge-secondary">{{fa.comment.length}}</span></i>
 
@@ -136,11 +136,7 @@
            
               <label>Add Image:</label><br>
               <br>
-              <input type="file" name="files" accept="image/*" (change)="onFileChanged($event)" >
               <br>
-
-              <label>Add Caption:</label><br><br>
-              <textarea name="caption" [(ngModel)]="your_new_name" id="cap" cols="25" rows="2"
                 placeholder="write something here..." required></textarea>
 
               <br>
