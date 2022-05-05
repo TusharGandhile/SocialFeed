@@ -33,6 +33,7 @@ router.post('/',verify,imgUpload,async (req, res) => {
         const feed = new Feed({
             photo:req.body.photo,
             caption:req.body.caption,
+            userId:req.body.userId,
            
         });
     
@@ -124,9 +125,9 @@ router.delete('/:id',verify,async (req, res) => {
 
             await Feed.remove({_id:req.params.id}).then(feeds=> res.json({success:true,
                 message:"Users deleted successfully", Feed:req.Feed,
-                Feeds})).catch(error=>res.json({success:false,
+                })).catch(error=>res.json({success:false,
                     message:"Users deleted successfully",Feed:req.Feed,
-                    Feeds}))
+                    }))
                 
    })
     

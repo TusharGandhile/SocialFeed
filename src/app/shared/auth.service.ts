@@ -7,7 +7,7 @@ export class AuthService {
 
   constructor() { }
   isLoggedin(){    
-    if(localStorage.getItem('currentUser')){
+    if(localStorage.getItem('token')){
       return true;
     }
     return false;

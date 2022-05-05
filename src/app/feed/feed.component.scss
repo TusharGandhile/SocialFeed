@@ -12,6 +12,7 @@
 }
 
 .ap{
+    margin-top: 10px;
     font-size: 12px;
     
 }
@@ -32,7 +33,16 @@ i{
 .fas{
 position: fixed;
 left:80%;
-top: 20%;
-margin-right: 30px;
+top: 15%;
+
 font-size: 50px;
+}
+.left{
+    display: flex;
+    justify-content: space-between;
+}
+.allComment
+{
+    overflow:scroll;
+    height: 120px;
 }

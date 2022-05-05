@@ -14,12 +14,24 @@ const feedScheme = new mongoose.Schema({
         minlength: [6, "min 6 req"]
 
     }, 
+    userId: {
+        type: String,
+        required: true,
+      
+
+    }, 
+    
     like:[
        
      ],
     comment:[
       
     ],
+    show:{
+        type: String,
+        default:"false"
+    },
+   
 
     date:{
         type: Date,
