@@ -10,14 +10,14 @@ const imgUpload=require("../imgUpload")
 
 
 router.post('/',async (req, res) => {
-    // const {error}=userValidation(req.body);
-    // if(error) 
+    const {error}=userValidation(req.body);
+    if(error) 
 
-    // return  res.json({
-    //     success:false,
-    //     message: error.details[0].message,
+    return  res.json({
+        success:false,
+        message: error.details[0].message,
        
-    // })
+    })
 
     const salt= await bcrypt.genSalt(10)
 const hashedPassword= await bcrypt.hash(req.body.password,salt)

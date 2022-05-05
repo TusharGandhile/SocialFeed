@@ -16,22 +16,50 @@ signupURL='http://localhost:8080/api/user/'
 
   ngOnInit(): void {
     this.signupForm = this.formBuilder.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      email: ['', Validators.required],
-      password: ['', Validators.required],
-    
+      // firstName: ['', Validators.required],
+      // lastName: ['', Validators.required],
+      // email: ['', [Validators.required,Validators.email]],
+      // password: ['',[ Validators.required,Validators.pattern('((?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,30})')]],
+      firstName: [''],
+      lastName: [''],
+      email: [''],
+    password:['']
     });
   }
   signup(){
     this.http.post<any>(this.signupURL,this.signupForm.value).subscribe((data:any)=>{
       console.log(data);
+      if(data.success){
       
-      this.router.navigate(['/feed']);         
-    this.toastr.success("Sign up successfully !!",data.message  )
+      this.toastr.success("Sign up successfully !!",data.message  )
+      this.router.navigate(['/login']);
+      }         
+      this.toastr.error("Login invalid",data.message  )
+  })
+ 
   }
-  ,(err)=>{
-    this.toastr.error("Something went wrong","Bad request" )
-    });
+
+  changeinput(){
+
+    let a=(document.getElementById('form3Example4')as HTMLInputElement).value
+    if(a==""){
+      (document.getElementById('check')as HTMLInputElement).innerHTML="password is required..."
+    }else if(a.length<6){
+      (document.getElementById('check')as HTMLInputElement).innerHTML="password must be 6 char..."
+      
+    }else if(/[0-9]/.test(a)!=true){
+      (document.getElementById('check')as HTMLInputElement).innerHTML="password must 1 digit..."
+      
+    }
+    else if(/[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(a)!=true){
+      (document.getElementById('check')as HTMLInputElement).innerHTML="password must 1 symbol..."
+      
+    }else{
+      (document.getElementById('check')as HTMLInputElement).innerHTML=""
+
+    }
+    
+
+
   }
 }

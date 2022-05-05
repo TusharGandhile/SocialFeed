@@ -43,6 +43,9 @@ direction = "";
   constructor(private spinner: NgxSpinnerService,private router:Router,private http:HttpClient,private toastr:ToastrService) { }
 
   ngOnInit(): void {
+
+localStorage.clear();
+
     if(localStorage.getItem('currentUser')){
       this.currentUser=JSON.parse(localStorage.getItem('currentUser')!)
       console.log(this.currentUser._id);

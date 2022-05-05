@@ -80,7 +80,7 @@
   <!-- <i  [ngStyle]="{'color': (fa.like[i].userId==currentUser._id) ? 'rgb(252, 67, 67)' : '#00000'}" class="fa fa-heart fa-2x"  id="heart"  aria-hidden="true" (click)="onLike(fa)"><span
     class="badge badge-secondary">{{fa.like.length}}</span></i>
               -->
-
+              
                 <i class="fa fa-heart fa-2x"  id="heart" style="color:red" aria-hidden="true" (click)="onLike(fa)"><span
                     class="badge badge-secondary">{{fa.like.length}}</span></i>
                     <!-- <i *ngIf="showHeart" class="fa fa-heart fa-2x"  id="heart" aria-hidden="true" (click)="onLike(fa)"><span
@@ -136,7 +136,7 @@
            
               <label>Add Image:</label><br>
               <br>
-              <input type="file" name="files" accept="image/*" (change)="onFileChanged($event)" required>
+              <input type="file" name="files" accept="image/*" (change)="onFileChanged($event)" >
               <br>
 
               <label>Add Caption:</label><br><br>
@@ -149,7 +149,7 @@
           <div class="modal-footer">
             <button type="button" mdbBtn color="danger" class="waves-light" aria-label="Close"
               (click)="basicModal.hide()" mdbWavesEffect>Close</button>
-            <button [disabled]= "f.invalid" type="button"  mdbBtn color="primary" class="relative waves-light" (click)="onSubmit()"
+            <button disabled= "f.invalid" type="button"  mdbBtn color="primary" class="relative waves-light" (click)="onSubmit()"
               mdbWavesEffect>Save!</button>
           </div>
         </form>

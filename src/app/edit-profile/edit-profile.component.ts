@@ -17,6 +17,7 @@ export class EditProfileComponent implements OnInit {
   UpdateURL = 'http://localhost:8080/edit-profile/';
   UpdatedProfileURL = 'http://localhost:8080/api/user/';
   users: any = [];
+  profile=true;
   constructor(private formBuilder: FormBuilder, private http: HttpClient, private toastr: ToastrService, private router: Router) { }
 
   ngOnInit(): void {
@@ -33,8 +34,8 @@ export class EditProfileComponent implements OnInit {
     this.editprofile = this.formBuilder.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      email: ['', Validators.required],
-      mobile: ['', [Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
+      email: ['',[ Validators.required,Validators.email]],
+      mobile: ['', [Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$"),Validators.pattern(/^-?(0|[1-9]\d*)?$/)]],
       gender: ['', Validators.required],
       bio: ['', Validators.required],
       photo: "",
@@ -72,5 +73,9 @@ export class EditProfileComponent implements OnInit {
       , (err) => {
         this.toastr.error("Something went wrong !!", "Bad request")
       });
+  }
+  removeImage(){
+    this.img='';
+    this.profile=false;
   }
 }

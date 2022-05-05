@@ -59,17 +59,17 @@
   
                 <!-- Password input -->
                 <div class="form-outline mb-4">
-                    <div class="form-control">
-                  <input type="password" formControlName="password" id="form3Example4" class="form-control" />
+                    <div class="p form-control">
+                  <input type="password" (change)="changeinput()" formControlName="password" id="form3Example4" class="form-control" />
                   <label class="form-label" for="form3Example4">Password</label>
-                  <small *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched" class="text-danger">Password is required & must be of 6 characters..</small>
-
+                 
+                  <small  id="check" *ngIf="signupForm.get('password')?.touched" class="text-danger">Password is required....</small>
                 </div>
                 </div>
-  
+                
                 <!-- Checkbox -->
                 <div class="form-check d-flex justify-content-center mb-4">
-                  <input class="form-check-input me-2" type="checkbox" value="" id="form2Example33" checked />
+                  <!-- <input class="form-check-input me-2" type="checkbox" value="" id="form2Example33" checked /> -->
                   <label class="form-check-label" for="form2Example33">
                     Already have Account?<a routerLink="/login">Login</a>
                   </label>
@@ -79,19 +79,12 @@
                 <button type="submit" [disabled]="signupForm.invalid" class="btn btn-primary btn-block mb-4" (click)="signup()">
                   Sign up
                 </button>
-  
-                
               </form>
             </div>
           </div>
         </div>
-  
-        <!-- <div class="col-lg-6 mb-5 mb-lg-0">
-          <img src="https://mdbootstrap.com/img/new/ecommerce/vertical/004.jpg" class="w-100 rounded-4 shadow-4"
-            alt="" />
-        </div> -->
+    <!-- Section: Design Block image-->
       </div>
     </div>
-    <!-- Jumbotron -->
-  </section>
-  <!-- Section: Design Block -->
+    </section>
+
