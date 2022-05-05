@@ -32,8 +32,9 @@
                   <div class="col-md-6 mb-4">
                     <div class="form-outline">
                         <div class="form-control">
+                          <label >First name</label>
                       <input type="text" formControlName="firstName" id="form3Example1" class="form-control" />
-                      <label class="form-label" for="form3Example1">First name</label>
+                     
                       <small *ngIf="signupForm.get('firstName')?.invalid && signupForm.get('firstName')?.touched" class="text-danger">First Name is required..</small>
 
                     </div>
@@ -42,8 +43,9 @@
                   <div class="col-md-6 mb-4">
                     <div class="form-outline">
                         <div class="form-control">
+                          <label >Last name</label>
                       <input type="text" formControlName="lastName" id="form3Example2" class="form-control" />
-                      <label class="form-label" for="form3Example2">Last name</label>
+                     
                       <small *ngIf="signupForm.get('lastName')?.invalid && signupForm.get('lastName')?.touched" class="text-danger">Last Name is required..</small>
 
                     </div>
@@ -53,9 +55,9 @@
   
                 <!-- Email input -->
                 <div class="form-outline mb-4">
+                  <label class="mt-5">Email address</label>
                     <div class="form-control">
                   <input type="email" formControlName="email" id="form3Example3" class="form-control" />
-                  <label class="form-label" for="form3Example3">Email address</label>
                   <small *ngIf="signupForm.get('email')?.invalid && signupForm.get('email')?.touched" class="text-danger">Enter valid email..</small>
 
                 </div>
@@ -64,15 +66,15 @@
                 <!-- Password input -->
                 <div class="form-outline mb-4">
                     <div class="form-control">
+                      <label for="">Password</label>
                   <input type="password" formControlName="password" id="form3Example4" class="form-control" />
-                  <label class="form-label" for="form3Example4">Password</label>
                   <small *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched" class="text-danger">Password is required & must be of 6 characters..</small>
 
                 </div>
                 </div>
   
                 <!-- Checkbox -->
-                <div class="form-check d-flex justify-content-center mb-4">
+                <div class="form-check d-flex justify-content-center mb-4 mt-5">
                   <label class="form-check-label" for="form2Example33">
                     Already have Account?<a routerLink="/login">Login</a>
                   </label>

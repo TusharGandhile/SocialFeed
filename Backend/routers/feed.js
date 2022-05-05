@@ -22,7 +22,7 @@ router.post('/upload',imgUpload,async (req, res) => {
  
 
 router.post('/',verify,imgUpload,async (req, res) => {
-
+console.log(req.file.path)
  
     const {error}=feedValidation(req.body);
     if(error) return  res.status(400).send({
@@ -31,7 +31,7 @@ router.post('/',verify,imgUpload,async (req, res) => {
  
     
         const feed = new Feed({
-            photo:req.body.photo,
+            photo:req.file.path,
             caption:req.body.caption,
             userId:req.body.userId,
            
@@ -74,7 +74,7 @@ const skip=(page-1)*size
 
 
 
-   await Feed.find().limit(limit).skip(skip)
+   await Feed.find().sort({_id:-1}).limit(limit).skip(skip)
 //    await Feed.find()
     
     .then(feeds=> {return res.json({success:true,

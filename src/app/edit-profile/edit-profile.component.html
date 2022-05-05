@@ -86,8 +86,9 @@
                       <div class="form-outline">
                           <div class="form-control">
                             
-                            <label for="form3Example1">Mobile Number</label>
-                            <input type="text" class="form-control" formControlName="mobile"  id="form3Example4">
+                            <label for="form3Example1">Mobile Number</label><br/>
+                            <input type="text" formControlName="mobile" id="form3Example4" class="form-control" [ng2TelInputOptions]="{initialCountry: 'in'}"  ng2TelInput />
+                            <!-- <input type="text" class="form-control" formControlName="mobile"  id="form3Example4"> -->
                             <small *ngIf="editprofile.get('mobile')?.invalid && editprofile.get('mobile')?.touched" class="text-danger">Mobile number is required & must of 10 digits..</small>
 
                       </div>

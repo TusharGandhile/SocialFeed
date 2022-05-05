@@ -26,9 +26,15 @@ signupURL='http://localhost:8080/api/user/'
   signup(){
     this.http.post<any>(this.signupURL,this.signupForm.value).subscribe((data:any)=>{
       console.log(data);
-      
+      if(data.success){
       this.router.navigate(['/login']);         
-    this.toastr.success("Sign up successfully !!",data.message  )
+      this.toastr.success("Sign up successfully !!",data.message  )
+
+      }
+      else{
+        this.toastr.error("error !!",data.message  )
+
+      }
   }
   ,(err)=>{
     this.toastr.error("Something went wrong","Bad request" )

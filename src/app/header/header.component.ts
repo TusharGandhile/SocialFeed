@@ -64,8 +64,12 @@ export class HeaderComponent implements OnInit {
     
       this.http.put(this.changeURL+this.currentUser._id,{password:this.passwordForm.value.password,newPassword:this.passwordForm.value.newpassword},{ headers: { "auth-token": this.token }}).subscribe((data:any)=>{
         console.log(data);
+        if(data.success){
         this.toastr.success("Password changed successfully !!",data.message  )
-      })
+      }
+    else{
+      this.toastr.error("Error !!",data.message  )
+    }})
      }
     
     else{

@@ -13,7 +13,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./feed.component.scss']
 })
 export class FeedComponent implements OnInit {
-
+  
   showHeart:any=true
 UpdatedProfileURL='http://localhost:8080/api/user/'
 FeedGetURL='http://localhost:8080/api/feed';
@@ -92,21 +92,30 @@ this.appendItems();
 
   onFileChanged(event:any) {
     this.img = event.target.files[0];
-    const formData=new FormData();
-    formData.append("photo", event.target.files[0]);
-    this.http.post<any>('http://localhost:8080/api/feed/upload',formData).subscribe((res:any)=>{
-  console.log(res.message.path);
-  this.img=res.message.path
+    
+    
+  //   this.http.post<any>('http://localhost:8080/api/feed/upload',formData).subscribe((res:any)=>{
+  // console.log(res.message.path);
+  // this.img=res.message.path
   
-  });
+  // });
 }
 
   onSubmit() {
-   
+    const formData:any=new FormData();
+
     let cu=JSON.parse(localStorage.getItem('currentUser')!);
     this.currentUser=cu
-    this .http.post<any>(this.FeedPostURL,{photo:this.img,caption:this.data.value.caption, userId:cu._id},{ headers: { "auth-token": this.token }}).subscribe((data:any)=>{
+    formData.append("caption", this.data.value.caption);
+   formData.append("userId", cu._id);
+formData.append("photo", this.img );
+console.log(formData);
+
+
+    this .http.post<any>(this.FeedPostURL,formData,{ headers: { "auth-token": this.token }}).subscribe((data:any)=>{
       console.log(data);
+
+    this.toastr.success("Post Added successfully !!", "Success")
       
     })
 
@@ -117,8 +126,7 @@ this.appendItems();
 
     })
 
-    this.toastr.success("Post Added successfully !!", "Success")
-    window.location.reload()
+     window.location.reload()
  
   }
   onLike(fa:any){
@@ -172,7 +180,7 @@ this.appendItems();
     setTimeout(() => {
       this.contentLoaded = true;
       //this.spinner.hide();
-    }, 2000);
+    }, 1000);
     
     this.direction = "scroll down";
   }

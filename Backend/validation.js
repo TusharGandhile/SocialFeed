@@ -12,7 +12,7 @@ const complexityOptions = {
 
 const feedValidation=(data)=>{
 const schema=Joi.object({ 
-    photo:Joi.string().min(6).required(),
+    photo:Joi.string(),
     caption:Joi.string().min(6).required(), 
     userId:Joi.string().min(6).required(), 
    
@@ -70,7 +70,22 @@ const userValidation=(data)=>{
                 return schema.validate(data)
                 
             }
+
+            const passValidation=(data)=>{
+                const schema=Joi.object({ 
+                     
+                      password: passwordComplexity(complexityOptions),
+                      newPassword: passwordComplexity(complexityOptions),
+            
+                          
+                })
+                
+                    return schema.validate(data)
+                    
+                }
+            
 module.exports.loginValidation=loginValidation;
+module.exports.passValidation=passValidation;
 module.exports.feedValidation=feedValidation;
 module.exports.userValidation=userValidation;
 module.exports.editValidation=editValidation;

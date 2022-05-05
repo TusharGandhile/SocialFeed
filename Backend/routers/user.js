@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const bcrypt=require('bcryptjs')
 const User = require('../model/user.js');
-const {userValidation,loginValidation}=require('../validation');
+const {userValidation,loginValidation,passValidation}=require('../validation');
 const jwt=require("jsonwebtoken")
 const verify=require("./verify")
 
@@ -60,6 +60,15 @@ router.post('/',async (req, res) => {
         message: error.details[0].message,
        
     })
+
+ 
+    const userExist= await User.findOne({email:req.body.email})
+    if(userExist) return     res.json({
+        success:false,
+        message: "User Already Exist",
+       
+    })
+  
 
     const salt= await bcrypt.genSalt(10)
 const hashedPassword= await bcrypt.hash(req.body.password,salt)
@@ -229,6 +238,14 @@ router.put('/:id',verify, async (req, res,next) => {
 
 router.put('/change/:id',verify, async (req, res,next) => { 
     console.log(req.params.id);
+
+    const {error}=passValidation(req.body);
+            if(error) 
+                return  res.json({
+                success:false,
+                message: error.details[0].message,
+               
+            })
 
     const user= await User.findOne({_id:req.params.id})
     if(!user) return  res.status(400).send("user not Found") 
